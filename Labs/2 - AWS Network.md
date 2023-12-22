@@ -258,7 +258,7 @@ terraform apply {{identifiant}}.tfplan
 
 Retournez sur la console AWS et vérifiez que votre VM de production est bien là.
 
-## Descrution
+## Destruction
 
 Lancez la commande sur chaque Workspace :
 
