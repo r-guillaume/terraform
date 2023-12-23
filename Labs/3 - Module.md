@@ -94,8 +94,6 @@ Renseignez-vous sur la ressource for_each...
 *Essayez de le faire par vous-même*
 
 Vous devriez obtenir quelque chose comme ça :
-
-For easy stuff
 ```hcl
 resource "aws_instance" "vm" {
   ami               = var.ami
