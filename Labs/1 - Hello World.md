@@ -103,7 +103,7 @@ Il y a plusieurs manières de surcharger une valeur par défaut.
 La plus simple est de créer une variable d'environement :
 
 ```bash
-export TF_VAR_name="{{identifiant}}"
+export TF_VAR_identifiant="{{identifiant}}"
 ```
 
 ## Lancer Terraform
