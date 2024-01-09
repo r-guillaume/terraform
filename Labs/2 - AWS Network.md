@@ -40,12 +40,12 @@ Nous allons créer 2 environements :
 
 1 environement de développement (DEV) avec :
 * 1 Virtual Private Cloud (VPC)
-* 1 Sous-réseau (subnet) avec un block CIDR `10.0.1.0/24`
+* 1 Sous-réseau (subnet) avec un block CIDR `10.0.X.0/24`
 * 1 Machine Virtuelle (VM)
 
 1 environement de production (PRD) avec :
 * 1 VPC
-* 1 Sous-réseau avec un block CIDR `10.0.2.0/24`
+* 1 Sous-réseau avec un block CIDR `10.0.Y.0/24`
 * 1 VM
 
 Toutes vos ressources **doivent** être nommées `{{identifiant}}_{{environement}}_{{type de ressource}}`, en majuscules.  
@@ -80,7 +80,7 @@ Ajoutez ce code à la suite du fichier `01-variables.tf` :
 ```hcl
 locals {
   address_spaces = {
-    DEV = "10.0.1.0/24"
+    DEV = "10.0.X.0/24"
   }
   address_space = local.address_spaces[terraform.workspace]
 }
@@ -220,7 +220,7 @@ Ce contenu :
 ```hcl
 locals {
   address_spaces = {
-    DEV = "10.0.1.0/24"
+    DEV = "10.0.X.0/24"
   }
   address_space = local.address_spaces[terraform.workspace]
 }
@@ -231,8 +231,8 @@ Devient donc :
 ```hcl
 locals {
   address_spaces = {
-    DEV = "10.0.1.0/24"
-    PRD = "10.0.2.0/24"
+    DEV = "10.0.X.0/24"
+    PRD = "10.0.Y.0/24"
   }
   address_space = local.address_spaces[terraform.workspace]
 }
