@@ -9,10 +9,17 @@ data "aws_subnet" "public" {
   }
 }
 
-data "aws_subnet" "private" {
+data "aws_subnet" "private-a" {
   filter {
     name   = "tag:Name"
-    values = ["PRIVATE_SUBNET"]
+    values = ["PRIVATE_SUBNET_A"]
+  }
+}
+
+data "aws_subnet" "private-b" {
+  filter {
+    name   = "tag:Name"
+    values = ["PRIVATE_SUBNET_B"]
   }
 }
 
