@@ -18,7 +18,7 @@ Pour créer une VM, nous avons créer ces différentes ressources :
 * Un ou plusieurs disques
 * Pour chaque disque, un attachement
 
-*Nous le faisons pas dans ce lab, mais pour une VM, il faut souvent créer un record DNS.*
+*Nous ne le faisons pas dans ce lab, mais pour une VM, il faut souvent créer un record DNS.*
 
 La solution pour optimiser notre déploiement s'appelle le module Terraform.
 
@@ -260,7 +260,7 @@ Vous savez le faire, je vous laisse planifier et appliquer les ressources sur AW
 
 ### Vérification sur la console
 
-Allez sur la console AWS de notre projet : [console](https://389840134943.signin.aws.amazon.com/console).
+Allez sur la console AWS de notre projet : [console](https://920373009484.signin.aws.amazon.com/console).
 
 Une fois connecté, allez dans le menu principal, sélectionnez EC2, et vérifier que votre VM est bien présente.  
 Vérifiez également que vos disques sont bien présents.

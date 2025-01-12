@@ -39,17 +39,15 @@ Durant ce lab, nous allons étudier le fonctionnement de ressources Terraform, d
 Nous allons créer 2 environements :
 
 1 environement de développement (DEV) avec :
-* 1 Virtual Private Cloud (VPC)
 * 1 Sous-réseau (subnet) avec un block CIDR `10.0.X.0/24`
 * 1 Machine Virtuelle (VM)
 
 1 environement de production (PRD) avec :
-* 1 VPC
 * 1 Sous-réseau avec un block CIDR `10.0.Y.0/24`
 * 1 VM
 
 Toutes vos ressources **doivent** être nommées `{{identifiant}}_{{environement}}_{{type de ressource}}`, en majuscules.  
-Par exemple : `TDUPONT_DEV_VPC`.
+Par exemple : `TDUPONT_DEV_SUBNET_A`.
 
 ## Créer votre infrastructure
 
@@ -93,16 +91,15 @@ locals {
 Créer le fichier `04-network.tf` avec le contenu suivant :
 
 ```hcl
-resource "aws_vpc" "this" {
-  cidr_block           = local.address_space
-  enable_dns_support   = true
-  enable_dns_hostnames = true
-
-  tags = { Name = upper("${var.identifiant}_${terraform.workspace}_VPC") }
+data "aws_vpc" "this" {
+  filter {
+    name   = "tag:Name"
+    values = ["VPC"]
+  }
 }
 
 resource "aws_subnet" "this" {
-  vpc_id            = aws_vpc.this.id
+  vpc_id            = data.aws_vpc.this.id
   cidr_block        = local.address_space
   availability_zone = data.aws_availability_zones.available.names[0]
 
@@ -112,7 +109,8 @@ resource "aws_subnet" "this" {
 
 Nous allons ici utiliser la valeur de `terraform.workspace` pour connaître nous Workspace courant.
 
-De plus, le sous réseau dépend du VPC, donc nous faisons référence à celui-ci en utilisant un mapping de ressource : `aws_vpc.this.id`.
+Nous ne pouvons pas créer un VPC par personne car AWS limite le nombre d'entre-eux. Nous allons utiliser une data pour récupérer un VPC existant.  
+De plus, le sous réseau dépend du VPC, donc nous faisons référence à celui-ci en utilisant un mapping de ressource : `data.aws_vpc.this.id`.
 
 Pour plus d'information concernant les attributs disponible pour les différentes ressources utilisées (par exemple l'id du vpc), vous pouvez lire la [documentation associée](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc).
 
@@ -198,7 +196,7 @@ terraform apply {{identifiant}}.tfplan
 
 ### Vérification sur la console
 
-Allez sur la console AWS de notre projet : [console](https://389840134943.signin.aws.amazon.com/console).
+Allez sur la console AWS de notre projet : [console](https://920373009484.signin.aws.amazon.com/console).
 
 Connectez-vous avez votre adresse mail et votre mot de passe reçu par mail.  
 Lors de votre première connexion, vous serez invité à en changer.
@@ -263,7 +261,7 @@ Retournez sur la console AWS et vérifiez que votre VM de production est bien l�
 Lancez la commande sur chaque Workspace :
 
 ```bash
-terraform apply -destroy
+terraform destroy
 ```
 
 PS : pour changer d'environement, utilisez `terraform workspace select {{env}}`
