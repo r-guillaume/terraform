@@ -79,9 +79,16 @@ resource "aws_instance" "vm" {
   availability_zone      = data.aws_availability_zones.available.names[0]
   instance_type          = "t2.micro"
   vpc_security_group_ids = [aws_security_group.ec2.id]
+  key_name               = aws_key_pair.ec2.id
 
   tags = { Name = upper("${var.identifiant}_VM") }
 }
+
+resource "aws_key_pair" "ec2" {
+   key_name   = lower("${var.identifiant}_key")
+   public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCdgUoVRIPCQHlBoaz6UfrvQ4gw2sxeV3PIgCmCSXUW+I9beSfrBs4ELbiuUsV33Y8rKRNQBxa60+J0bEwNtIXRARN7bfdVmukoIJ/LBPcj1XzjmcVE4RJCxSRQbiMYnbUG6Ps5m1sMXsGf0WoPuXIsYoRKHa4QtcqSqqm/G/BW4a0Kvwdfww2dYCKhNoniSPAnDGPowQpGzTc3nvO/ED7polY9T1b6kqaw5WSCWic/qUfgJ2Lxn+bus72vgelhqZhFSqJgTL2e3xPmqtmrUO/4U2kjF3YH120syEfvQFIg/PozQqfkupbDPB1Cx7/1ThZLpJT5Dv1I/kCuZQuNNZj7"
+}
+
 
 resource "aws_db_subnet_group" "default" {
   name       = lower("${var.identifiant}_SUBNET_GROUP_RDS")
