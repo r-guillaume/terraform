@@ -75,10 +75,19 @@ resource "aws_security_group_rule" "allow_ec2_to_bastion" {
 
 resource "aws_instance" "vm" {
   ami                    = data.aws_ami.amazon-linux-2.id
-  subnet_id              = data.aws_subnet.private.id
+  subnet_id              = data.aws_subnet.private-a.id
   availability_zone      = data.aws_availability_zones.available.names[0]
   instance_type          = "t2.micro"
   vpc_security_group_ids = [aws_security_group.ec2.id]
 
   tags = { Name = upper("${var.identifiant}_VM") }
+}
+
+resource "aws_db_subnet_group" "default" {
+  name       = "${var.identifiant}_SUBNET_GROUP_RDS"
+  subnet_ids = [data.aws_subnet.private-a, data.aws_subnet.private-b]
+
+  tags = {
+    Name = "${var.identifiant}_SUBNET_GROUP_RDS"
+  }
 }
