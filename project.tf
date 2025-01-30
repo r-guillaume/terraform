@@ -85,7 +85,7 @@ resource "aws_instance" "vm" {
 
 resource "aws_db_subnet_group" "default" {
   name       = "${var.identifiant}_SUBNET_GROUP_RDS"
-  subnet_ids = [data.aws_subnet.private-a, data.aws_subnet.private-b]
+  subnet_ids = [data.aws_subnet.private-a.id, data.aws_subnet.private-b.id]
 
   tags = {
     Name = "${var.identifiant}_SUBNET_GROUP_RDS"
