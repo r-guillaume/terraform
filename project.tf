@@ -2,10 +2,17 @@ data "aws_availability_zones" "available" {
   state = "available"
 }
 
-data "aws_subnet" "public" {
+data "aws_subnet" "public-a" {
   filter {
     name   = "tag:Name"
     values = ["PUBLIC_SUBNET_A"]
+  }
+}
+
+data "aws_subnet" "public-b" {
+  filter {
+    name   = "tag:Name"
+    values = ["PUBLIC_SUBNET_B"]
   }
 }
 
