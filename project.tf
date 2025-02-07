@@ -5,7 +5,7 @@ data "aws_availability_zones" "available" {
 data "aws_subnet" "public" {
   filter {
     name   = "tag:Name"
-    values = ["PUBLIC_SUBNET"]
+    values = ["PUBLIC_SUBNET_A"]
   }
 }
 
@@ -86,7 +86,7 @@ resource "aws_instance" "vm" {
 
 resource "aws_key_pair" "ec2" {
    key_name   = lower("${var.identifiant}_key")
-   public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCdgUoVRIPCQHlBoaz6UfrvQ4gw2sxeV3PIgCmCSXUW+I9beSfrBs4ELbiuUsV33Y8rKRNQBxa60+J0bEwNtIXRARN7bfdVmukoIJ/LBPcj1XzjmcVE4RJCxSRQbiMYnbUG6Ps5m1sMXsGf0WoPuXIsYoRKHa4QtcqSqqm/G/BW4a0Kvwdfww2dYCKhNoniSPAnDGPowQpGzTc3nvO/ED7polY9T1b6kqaw5WSCWic/qUfgJ2Lxn+bus72vgelhqZhFSqJgTL2e3xPmqtmrUO/4U2kjF3YH120syEfvQFIg/PozQqfkupbDPB1Cx7/1ThZLpJT5Dv1I/kCuZQuNNZj7"
+   public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDDbSEyblVHab2wlXSAFOe2mvUdH9/Y1rNR++eftlaiEfaU1dNX9/mwcuO/4zbqYRRZJFL7jJDWYvMMKMfnaNv0/VslWJ0wauv9MeSrr8QiHM8N3hGnw9AtVLuoL89cI3ClLfaDPoFAMSMO/OMZ5Ijf5O6ezCWUCnTPOrlbdaZ+XMBIEW9Rf+sgQ6WfdU8M4uacStO6T181TrCl/EA3D0iSHJuSohbP8oe67zDVTWdo4npcPFQ6RMGOaRS5Rq3FyrJG61cvyEBYozzeOMGGd3jvK/UxcQBF2aalz/9NvHl+cYeRCS/bekkfZXfxYi+uh10ZIj2SzroVOYpa1rzdnRjP"
 }
 
 
@@ -115,4 +115,15 @@ resource "aws_security_group_rule" "ec2_to_https" {
   protocol          = "tcp"
   security_group_id = aws_security_group.ec2.id
   cidr_blocks       = ["0.0.0.0/0"]
+}
+
+data "aws_security_group" "lb" {
+  filter {
+    name   = "tag:Name"
+    values = ["SG_LB"]
+  }
+}
+
+data "aws_lb" "lb" {
+  name = "lb"
 }
