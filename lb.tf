@@ -20,15 +20,6 @@ resource "aws_lb_target_group_attachment" "this" {
   port             = 80
 }
 
-resource "aws_security_group_rule" "lb_from_internet" {
-  type              = "ingress"
-  from_port         = 8080
-  to_port           = 8080
-  protocol          = "tcp"
-  cidr_blocks       = ["0.0.0.0/0"]
-  security_group_id = data.aws_security_group.lb.id
-}
-
 resource "aws_security_group_rule" "internet_to_lb" {
   type              = "egress"
   from_port         = 80
@@ -56,13 +47,4 @@ resource "aws_security_group_rule" "ec2_from_lb" {
   protocol                 = "tcp"
   source_security_group_id = data.aws_security_group.lb.id
   security_group_id        = aws_security_group.ec2.id
-}
-
-resource "aws_security_group_rule" "lb_to_ec2" {
-  type              = "egress"
-  from_port         = 80
-  to_port           = 80
-  protocol          = "tcp"
-  security_group_id = data.aws_security_group.lb.id
-  cidr_blocks       = [data.aws_subnet.private-a.cidr_block, data.aws_subnet.private-b.cidr_block]
 }

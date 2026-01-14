@@ -84,7 +84,7 @@ resource "aws_instance" "vm" {
   ami                    = data.aws_ami.amazon-linux-2.id
   subnet_id              = data.aws_subnet.private-a.id
   availability_zone      = data.aws_availability_zones.available.names[0]
-  instance_type          = "t2.micro"
+  instance_type          = "t3.micro"
   vpc_security_group_ids = [aws_security_group.ec2.id]
   key_name               = aws_key_pair.ec2.id
 
