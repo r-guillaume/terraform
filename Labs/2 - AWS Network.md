@@ -161,7 +161,7 @@ resource "aws_instance" "vm" {
   ami               = data.aws_ami.amazon-linux-2.id
   subnet_id         = aws_subnet.this.id
   availability_zone = data.aws_availability_zones.available.names[0]
-  instance_type     = "t2.micro"
+  instance_type     = "t3.micro"
 
   tags = { Name = upper("${var.identifiant}_${terraform.workspace}_VM") }
 }
